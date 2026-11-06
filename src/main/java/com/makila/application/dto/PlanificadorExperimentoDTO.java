@@ -69,3 +69,4 @@ public class PlanificadorExperimentoDTO {
     public String getResumen() { return resumen; }
     public void setResumen(String resumen) { this.resumen = resumen; }
 }
+

@@ -1,5 +1,6 @@
 package com.makila.infrastructure.adapter.out.ai;
 
+import com.makila.application.dto.PlanificadorExperimentoDTO;
 import com.makila.application.guardrail.SecurityGuardrails;
 import com.makila.domain.exception.MaterialAmbiguoException;
 import com.makila.domain.exception.RegistroNoEncontradoException;
@@ -67,6 +68,12 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
             Pattern.CASE_INSENSITIVE
     );
 
+    // Patrón para planificación de lotes de experimentos
+    private static final Pattern PATTERN_PLANIFICAR = Pattern.compile(
+            "\\b(planificar|planeaci[oó]n|lote de experimentos?|ensayo[s]? cl[ií]nico[s]?)\\b",
+            Pattern.CASE_INSENSITIVE
+    );
+
     public DeterministicFunctionCallingAgent(CatalogoMaterialesPort catalogoPort,
                                            GestionMovimientosPort movimientosPort,
                                            AuditoriaSeguridadPort auditoriaPort,
@@ -120,6 +127,11 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
         // 4. Detección de intención: Alertas Críticas y Caducidades
         if (PATTERN_CADUCIDADES.matcher(msgLower).find()) {
             return ejecutarToolConsultarAlertas();
+        }
+
+        // 5. Detección de intención: Planificar lote de experimentos
+        if (PATTERN_PLANIFICAR.matcher(msgLower).find()) {
+            return ejecutarToolPlanificarExperimento(msgTrim);
         }
 
         // 5. Detección de intención: Consulta de Stock / Existencia
@@ -310,5 +322,68 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
                 clean, total, reactivos.size(), biomats.size(), equipos.size());
 
         return AgentToolResult.success("buscar_materiales", respuesta, resultados);
+    }
+
+    /**
+     * Tool: planificar_stock_experimento
+     * Planifica el stock necesario para un lote de experimentos evaluando condiciones críticas (Requisito MVP).
+     */
+    public AgentToolResult ejecutarToolPlanificarExperimento(String mensajeUsuario) {
+        List<PlanificadorExperimentoDTO.RequerimientoItem> items = new ArrayList<>();
+        boolean todosViables = true;
+
+        List<ReactivoQuimico> reactivos = catalogoPort.listarReactivos();
+        List<AleacionBiomaterial> biomats = catalogoPort.listarBiomateriales();
+        String msgLower = mensajeUsuario.toLowerCase();
+
+        for (AleacionBiomaterial b : biomats) {
+            if (msgLower.contains("titanio") || msgLower.contains("polimero") || msgLower.contains("nitinol") 
+                    || msgLower.contains(b.getNombre().toLowerCase()) || msgLower.contains(b.getTipoMaterial().toLowerCase())) {
+                boolean ok = b.getCantidadDisponible() > 0;
+                if (!ok) todosViables = false;
+                items.add(new PlanificadorExperimentoDTO.RequerimientoItem(
+                        b.getNombre() + " (" + b.getLote() + ")",
+                        5.0, b.getUnidad(), b.getCantidadDisponible(), ok,
+                        "Especificación: " + b.getEspecificacionesTecnicas()
+                ));
+            }
+        }
+
+        for (ReactivoQuimico r : reactivos) {
+            if (msgLower.contains("bismuto") || msgLower.contains("micras") || msgLower.contains("quitosano") 
+                    || msgLower.contains("hialuronico") || msgLower.contains(r.getNombre().toLowerCase())) {
+                boolean ok = r.getCantidad() > 0;
+                if (!ok) todosViables = false;
+                String adv = "";
+                if (r.getTempMaxCelsius() != null && r.getTempMaxCelsius() <= 30.0) {
+                    adv += "Control térmico: Termolábil (<=" + r.getTempMaxCelsius() + "°C). ";
+                }
+                if (Boolean.TRUE.equals(r.getRequiereAislamientoLuz())) {
+                    adv += "Fotosensibilidad: Aislamiento total de luz solar UV. ";
+                }
+                items.add(new PlanificadorExperimentoDTO.RequerimientoItem(
+                        r.getNombre() + " (" + r.getFormula() + ")",
+                        10.0, r.getUnidad(), r.getCantidad(), ok,
+                        adv.isEmpty() ? "Condiciones estándar de laboratorio." : adv
+                ));
+            }
+        }
+
+        if (items.isEmpty()) {
+            return AgentToolResult.success("planificar_stock_experimento",
+                    "Para planificar tu lote de experimentos, menciona los insumos o materiales requeridos (ej: 'Planificar lote con titanio-zirconio y fluido de micras').", null);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("📋 **Planificación de Lote de Ensayos Biomédicos**:\n");
+        sb.append(todosViables ? "✅ **ESTADO: VIABLE** (Todos los insumos cuentan con stock disponible)\n" 
+                               : "⚠️ **ESTADO: REQUIERE ABASTECIMIENTO**\n");
+        for (PlanificadorExperimentoDTO.RequerimientoItem item : items) {
+            sb.append(String.format("- %s: Stock actual %.2f %s. %s\n",
+                    item.getMaterial(), item.getStockActual(), item.getUnidad(), item.getAdvertenciaSeguridad()));
+        }
+
+        PlanificadorExperimentoDTO plan = new PlanificadorExperimentoDTO("Lote de Ensayo Biomédico", todosViables, items, sb.toString());
+        return AgentToolResult.success("planificar_stock_experimento", sb.toString(), plan);
     }
 }
