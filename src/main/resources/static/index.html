@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makila - Asistente de Inventario Biomédico</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+
+    <!-- Cabecera Institucional y de Marca -->
+    <header class="app-header">
+        <div class="brand-section">
+            <img src="/images/logo.png" alt="Makila Logo" class="brand-logo">
+            <div>
+                <h1 class="brand-title">MAKILA</h1>
+                <p class="brand-subtitle">Laboratorio de Biomateriales • CUCEI UdeG</p>
+            </div>
+        </div>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="tab-crud">
+                <span>📊</span> Tablero Visual & CRUD
+            </button>
+            <button class="tab-btn" data-tab="tab-chat">
+                <span>🤖</span> Asistente IA Conversacional
+            </button>
+        </nav>
+
+        <div class="header-status">
+            <span class="status-indicator"></span>
+            <span>Agente & BD Activos</span>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+
+        <!-- ================= PESTAÑA 1: CRUD VISUAL ================= -->
+        <div id="tab-crud" class="tab-pane active">
+            <!-- Tarjetas Resumen KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-title">Reactivos Químicos</span>
+                    <span class="kpi-value" id="kpi-reactivos">-</span>
+                    <span class="kpi-meta">Fórmulas y Fichas MSDS</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Biomateriales & Aleaciones</span>
+                    <span class="kpi-value" id="kpi-biomateriales">-</span>
+                    <span class="kpi-meta">Ti-Zr, Polímeros, Lotes</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Equipos Operativos</span>
+                    <span class="kpi-value" id="kpi-equipos">-</span>
+                    <span class="kpi-meta">Ensayos e Instrumentación</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Trazabilidad Total</span>
+                    <span class="kpi-value" id="kpi-movimientos">-</span>
+                    <span class="kpi-meta">Movimientos Registrados</span>
+                </div>
+                <div class="kpi-card alert">
+                    <span class="kpi-title">Alertas Críticas</span>
+                    <span class="kpi-value" id="kpi-alertas">-</span>
+                    <span class="kpi-meta">Control Térmico y Luz UV</span>
+                </div>
+            </div>
+
+            <!-- Banner de Alertas Dinámicas -->
+            <div id="alerts-container" class="alerts-container"></div>
+
+            <!-- Sección 1: Reactivos Químicos -->
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">🧪 Catálogo de Reactivos Químicos</h3>
+                    <div class="panel-actions">
+                        <button class="btn-accent" onclick="loadReactivos()">↻ Actualizar</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre Comercial</th>
+                                <th>Fórmula</th>
+                                <th>Stock</th>
+                                <th>Ubicación</th>
+                                <th>Caducidad</th>
+                                <th>Condiciones de Seguridad & Almacenamiento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-reactivos">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección 2: Aleaciones y Biomateriales -->
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">🔩 Aleaciones Metálicas y Biomateriales</h3>
+                    <div class="panel-actions">
+                        <button class="btn-accent" onclick="loadBiomateriales()">↻ Actualizar</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo Material</th>
+                                <th>Nombre</th>
+                                <th>Lote</th>
+                                <th>Cantidad Disponible</th>
+                                <th>Especificaciones Técnicas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-biomateriales">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección 3: Equipos de Caracterización -->
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">🔬 Equipos de Caracterización e Instrumentación</h3>
+                    <div class="panel-actions">
+                        <button class="btn-accent" onclick="loadEquipos()">↻ Actualizar</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre del Equipo</th>
+                                <th>Estado Operativo</th>
+                                <th>Próxima Calibración</th>
+                                <th>Ubicación</th>
+                                <th>Responsable</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-equipos">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección 4: Historial de Movimientos -->
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">📋 Historial de Movimientos (Trazabilidad)</h3>
+                    <div class="panel-actions">
+                        <button id="btn-nuevo-movimiento" class="btn-primary">+ Registrar Movimiento</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Transacción</th>
+                                <th>Tipo</th>
+                                <th>Categoría</th>
+                                <th>Material / Equipo</th>
+                                <th>Cantidad</th>
+                                <th>Exp / Lote</th>
+                                <th>Responsable</th>
+                                <th>Fecha & Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-historial">
+                            <!-- Inyectado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PESTAÑA 2: ASISTENTE CONVERSACIONAL ================= -->
+        <div id="tab-chat" class="tab-pane">
+            <div class="chat-layout">
+                <!-- Barra lateral con prompts y guardrails -->
+                <aside class="chat-sidebar">
+                    <div>
+                        <h4 class="sidebar-title">⚡ Consultas Frecuentes</h4>
+                        <div class="quick-prompts-list" style="margin-top:0.6rem;">
+                            <button class="quick-prompt-btn" data-prompt="¿Cuánto stock tenemos de sistemas titanio-zirconio?">
+                                🔍 Stock de Titanio-Zirconio
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="Consultar condiciones de almacenamiento de fluido de micras">
+                                🧪 Cuidados de Fluido de Micras (Luz UV)
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="Verificar ficha de seguridad y temperatura para bismuto de cobre">
+                                ❄️ MSDS Bismuto de Cobre (&lt; 30°C)
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="¿Qué equipos están pendientes de calibración o en mantenimiento?">
+                                🔬 Estado y Calibración de Equipos
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="Registrar salida de 5 barras de sistemas titanio-zirconio para EXP-BIO-99">
+                                📦 Registrar Salida Controlada
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="Registrar salida de 500 barras de titanio">
+                                🛡️ Probar Guardrail: Stock Excesivo
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="Registrar consumo de 10 g de Platino inexistente">
+                                🛡️ Probar Guardrail: Item Inexistente
+                            </button>
+                            <button class="quick-prompt-btn" data-prompt="' OR 1=1; DROP TABLE reactivos_quimicos; --">
+                                🛡️ Probar Guardrail: Inyección SQL
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="guardrail-card">
+                        <h5>🛡️ Guardrails Activos (P07)</h5>
+                        <p>✓ Validación en código de stock suficiente antes de descontar.</p>
+                        <p>✓ Bloqueo estricto de identificadores inexistentes.</p>
+                        <p>✓ Prevención contra Prompt Injection y SQL Injection.</p>
+                        <p>✓ Desambiguación interactiva ante coincidencias parciales.</p>
+                    </div>
+                </aside>
+
+                <!-- Área Central de Chat -->
+                <section class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-header-title">
+                            <span>🤖</span> Asistente Agéntico de Laboratorio Makila
+                        </div>
+                        <span class="badge-tag">Function Calling Seguro</span>
+                    </div>
+
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="message-bubble agent">
+                            <div class="tool-indicator">Agente Inicializado</div>
+                            <p>¡Hola! Soy <strong>Makila</strong>, tu asistente inteligente para el control de inventario biomédico del laboratorio.</p>
+                            <p style="margin-top: 0.4rem;">Puedo asistirte en la consulta de existencias, verificación de fichas MSDS (como el control térmico de bismuto de cobre o aislamiento lumínico de fluido de micras), estado de calibración de instrumentos y registro trazable de entradas, salidas o consumos vinculados a experimentos.</p>
+                        </div>
+                    </div>
+
+                    <form id="chat-form" class="chat-input-bar">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu consulta o instrucción de inventario (ej: ¿Cuánto titanio-zirconio queda?)..." autocomplete="off">
+                        <button type="submit" class="btn-send">Enviar</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal para Registrar Movimiento Manual -->
+    <div id="modal-movimiento" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Registrar Movimiento de Inventario</h3>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <form id="form-movimiento">
+                <div class="form-group">
+                    <label class="form-label" for="mov-tipo">Tipo de Movimiento</label>
+                    <select id="mov-tipo" class="form-select" required>
+                        <option value="ENTRADA">ENTRADA (Recepción / Abastecimiento)</option>
+                        <option value="SALIDA">SALIDA (Transferencia externa)</option>
+                        <option value="CONSUMO">CONSUMO (Uso en ensayo de laboratorio)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-categoria">Categoría</label>
+                    <select id="mov-categoria" class="form-select" required>
+                        <option value="REACTIVO">Reactivo Químico</option>
+                        <option value="BIOMATERIAL">Aleación / Biomaterial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-id">ID del Material en Catálogo</label>
+                    <input type="number" id="mov-id" class="form-input" required placeholder="Ej: 1">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-cantidad">Cantidad a Mover</label>
+                    <input type="number" step="any" id="mov-cantidad" class="form-input" required placeholder="Ej: 5.0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-unidad">Unidad de Medida (Opcional)</label>
+                    <input type="text" id="mov-unidad" class="form-input" placeholder="g, mL, barras, láminas">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-experimento">Experimento o Lote Vinculado</label>
+                    <input type="text" id="mov-experimento" class="form-input" required placeholder="Ej: EXP-BIO-2026-TRAC02">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-usuario">Usuario Responsable</label>
+                    <input type="text" id="mov-usuario" class="form-input" required placeholder="Ej: Dr. José Martín Quiroz">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="mov-notas">Notas u Observaciones</label>
+                    <input type="text" id="mov-notas" class="form-input" placeholder="Ej: Ensayos de fatiga mecánica en probetas">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-modal-btn" class="btn-accent">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Transacción</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="app-footer">
+        <p>Makila v1.0 • Tópicos de Ingeniería Biomédica II • Universidad de Guadalajara (CUCEI) • Desarrollado por José Martín Quiroz Castro</p>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
+
