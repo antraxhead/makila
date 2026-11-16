@@ -8,7 +8,7 @@
 
 ---
 
-## 📌 1. Visión y Problemática Resuelta
+## 1. Visión y Problemática Resuelta
 
 El control de inventario en laboratorios de biomateriales requiere atención rigurosa tanto al volumen disponible como a las **condiciones de almacenamiento y conservación crítica**:
 - Reactivos termolábiles (ej. *Bismuto de Cobre* que se degrada por encima de los 30°C).
@@ -20,7 +20,7 @@ El control de inventario en laboratorios de biomateriales requiere atención rig
 
 ---
 
-## 🏗️ 2. Arquitectura Hexagonal (Ports & Adapters)
+## 2. Arquitectura Hexagonal (Ports & Adapters)
 
 El código fuente está estructurado de acuerdo con la bitácora técnica de arquitectura hexagonal:
 
@@ -114,7 +114,7 @@ src/
 
 ---
 
-## 🎨 3. Identidad Visual y Paleta UI-UX
+## 3. Identidad Visual y Paleta UI-UX
 
 La interfaz respeta al 100% las especificaciones de diseño de la bitácora:
 - **Valencia (`#343434`)**: Textos legibles, contrastes y tipografía.
@@ -126,7 +126,7 @@ La interfaz respeta al 100% las especificaciones de diseño de la bitácora:
 
 ---
 
-## 🛡️ 4. Capa de Seguridad y Guardrails (Requisito P07)
+## 4. Capa de Seguridad y Guardrails (Requisito P07)
 
 1. **Validación de Entradas y Stock**:
    - Impide registrar consumos o salidas superiores al stock actual disponible (`StockInsuficienteException`).
@@ -141,7 +141,7 @@ La interfaz respeta al 100% las especificaciones de diseño de la bitácora:
 
 ---
 
-## 🧪 5. Verificación y Calidad: Eval Suite (Requisito P09)
+## 5. Verificación y Calidad: Eval Suite (Requisito P09)
 
 Ubicada en `src/test/java/com/makila/eval/AgentEvalSuiteTest.java`, incluye los **10 casos de prueba automatizados**:
 
@@ -161,7 +161,7 @@ Ubicada en `src/test/java/com/makila/eval/AgentEvalSuiteTest.java`, incluye los 
 
 ---
 
-## 🚀 6. Compilación y Ejecución
+## 6. Compilación y Ejecución
 
 ### Ejecutar Pruebas Automatizadas (Eval Suite + Tests Backend):
 ```bash

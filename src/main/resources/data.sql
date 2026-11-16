@@ -30,3 +30,13 @@ VALUES
 (2, 'CONSUMO', 'BIOMATERIAL', 1, 'Sistemas Titanio-Zirconio Grado Implante', 5.0, 'barras', 'EXP-BIO-2026-TRAC01', 'Ing. Biomédico Residente', '2026-10-22 14:15:00', 'Mecanizado de probetas para ensayos de tracción uniaxial'),
 (3, 'ENTRADA', 'REACTIVO', 1, 'Bismuto de Cobre (Nanopolvo)', 250.0, 'g', 'MSDS-CB-01', 'Dra. Bonilla Carranza', '2026-11-01 11:00:00', 'Almacenado bajo protocolo térmico estricto a 4°C');
 
+-- 5. Insumos Generales y EPP de Laboratorio
+INSERT OR IGNORE INTO insumos_generales (id, categoria_insumo, nombre, cantidad, unidad, ubicacion, stock_minimo, especificaciones)
+VALUES
+(1, 'EPP', 'Guantes de Nitrilo sin Polvo (Talla M/L)', 400.0, 'pares', 'Estación de Bioseguridad E-01', 100.0, 'Grado médico AQL 1.5, resistentes a solventes orgánicos y fluidos biológicos.'),
+(2, 'EPP', 'Cofias Desechables Plisadas', 350.0, 'piezas', 'Estación de Bioseguridad E-01', 80.0, 'Tela no tejida polipropileno 14 g/m2, ajuste elástico estéril para sala limpia.'),
+(3, 'EPP', 'Batas de Laboratorio Antiestáticas', 45.0, 'piezas', 'Vestidor Sala Blanca V-01', 15.0, 'Poliéster con fibra de carbono ESD, puños ajustables para manejo de nanomateriales.'),
+(4, 'Cristalería', 'Matraces Erlenmeyer Borosilicato 250 mL', 32.0, 'piezas', 'Gabinete de Cristalería C-02', 10.0, 'Vidrio borosilicato 3.3 graduado, resistente a choque térmico y autoclave.'),
+(5, 'Preparación', 'Lumina / Alúmina de Pulido (0.05 µm)', 950.0, 'mL', 'Área de Metalografía M-01', 250.0, 'Suspensión abrasiva ultrafina para acabado espejo de probetas Ti-Zr y Nitinol.'),
+(6, 'Limpieza Crítica', 'Paños Libres de Pelusa (Cleanroom Wipes)', 500.0, 'hojas', 'Sala Blanca Nanoescala N-02', 120.0, 'Microfibra sellada por láser 22x22 cm para limpieza óptica y AFM.');
+

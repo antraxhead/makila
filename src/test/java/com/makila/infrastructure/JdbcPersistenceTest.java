@@ -3,9 +3,11 @@ package com.makila.infrastructure;
 import com.makila.domain.model.AleacionBiomaterial;
 import com.makila.domain.model.EquipoCaracterizacion;
 import com.makila.domain.model.EstadoEquipo;
+import com.makila.domain.model.InsumoGeneral;
 import com.makila.domain.model.ReactivoQuimico;
 import com.makila.domain.port.out.BiomaterialRepositoryPort;
 import com.makila.domain.port.out.EquipoRepositoryPort;
+import com.makila.domain.port.out.InsumoGeneralRepositoryPort;
 import com.makila.domain.port.out.ReactivoRepositoryPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ public class JdbcPersistenceTest {
 
     @Autowired
     private EquipoRepositoryPort equipoRepo;
+
+    @Autowired
+    private InsumoGeneralRepositoryPort insumoRepo;
 
     @Test
     @DisplayName("Repositorio Reactivos: Carga datos semilla y previene SQLi mediante consultas parametrizadas")
@@ -57,6 +62,19 @@ public class JdbcPersistenceTest {
 
         List<EquipoCaracterizacion> mant = equipoRepo.findByEstado(EstadoEquipo.EN_MANTENIMIENTO);
         assertFalse(mant.isEmpty(), "Debe registrar equipos en mantenimiento como el espectrofotómetro");
+    }
+
+    @Test
+    @DisplayName("Repositorio Insumos Generales: Carga EPP, cristalería y consumibles y permite búsqueda parametrizada")
+    void testInsumosGeneralesPersistence() {
+        List<InsumoGeneral> insumos = insumoRepo.findAll();
+        assertFalse(insumos.isEmpty(), "Debe contener insumos generales iniciales (guantes, cofias, batas, matraces, lumina, paños)");
+
+        List<InsumoGeneral> guantes = insumoRepo.findByNombreOrCategoriaContainingIgnoreCase("guantes");
+        assertFalse(guantes.isEmpty(), "Debe encontrar guantes en el catálogo de insumos");
+
+        List<InsumoGeneral> matraces = insumoRepo.findByNombreOrCategoriaContainingIgnoreCase("matraces");
+        assertFalse(matraces.isEmpty(), "Debe encontrar matraces en el catálogo de insumos");
     }
 }
 

@@ -3,249 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Makila - Asistente de Inventario Biomédico</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>MAKILA - Control de Inventario Biomédico | CUCEI UdeG</title>
+    <link rel="stylesheet" href="/css/styles.css?v=8">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 <body>
 
-    <!-- Cabecera Institucional y de Marca -->
+    <!-- ================= CABECERA INSTITUCIONAL GLASS ================= -->
     <header class="app-header">
         <div class="brand-section">
-            <img src="/images/logo.png" alt="Makila Logo" class="brand-logo">
-            <div>
-                <h1 class="brand-title">MAKILA</h1>
-                <p class="brand-subtitle">Laboratorio de Biomateriales • CUCEI UdeG</p>
+            <div class="logo-box">
+                <img src="/images/logo.png" alt="Makila" class="brand-logo">
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">MAKILA</span>
+                <span class="brand-subtitle">CUCEI • Biomateriales</span>
             </div>
         </div>
 
-        <nav class="nav-tabs">
-            <button class="tab-btn active" data-tab="tab-crud">
-                <span>📊</span> Tablero Visual & CRUD
+        <nav class="nav-button-group" aria-label="Navegación principal">
+            <button class="nav-btn active" data-view="view-dashboard" id="btn-nav-dashboard">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                <span>Dashboard</span>
             </button>
-            <button class="tab-btn" data-tab="tab-chat">
-                <span>🤖</span> Asistente IA Conversacional
+            <button class="nav-btn" data-view="view-reactivos" id="btn-nav-reactivos">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.69 18A2 2 0 0 0 6.41 21h11.18a2 2 0 0 0 1.72-3L14 9.31V2"></path></svg>
+                <span>Reactivos</span>
+            </button>
+            <button class="nav-btn" data-view="view-biomateriales" id="btn-nav-biomateriales">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>Biomateriales</span>
+            </button>
+            <button class="nav-btn" data-view="view-insumos" id="btn-nav-insumos">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <span>Insumos</span>
+            </button>
+            <button class="nav-btn" data-view="view-equipos" id="btn-nav-equipos">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Equipos</span>
+            </button>
+            <button class="nav-btn" data-view="view-historial" id="btn-nav-historial">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="12 8 12 12 14 14"></polyline><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path></svg>
+                <span>Historial</span>
+            </button>
+            <button class="nav-btn" data-view="view-planificador" id="btn-nav-planificador">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                <span>Planificador</span>
+            </button>
+            <button class="nav-btn" data-view="view-chat" id="btn-nav-chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>Habla con Makila</span>
             </button>
         </nav>
 
-        <div class="header-status">
-            <span class="status-indicator"></span>
-            <span>Agente & BD Activos</span>
+        <div class="header-right-actions">
+            <button id="btn-nav-alertas" class="nav-btn-alert" data-view="view-alertas" onclick="switchView('view-alertas')" title="Alertas" aria-label="Alertas">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span id="nav-alert-count" class="alert-counter-badge">0</span>
+            </button>
+            <button id="btn-top-nueva-trx" class="btn-top-plus" onclick="openModalMovimiento()" title="Registrar movimiento">+</button>
+            <button id="btn-user-profile" class="btn-user-chip" onclick="openUserModal()" title="Perfil de usuario">
+                <span id="header-user-initials" class="user-initials-box">JQ</span>
+                <span id="header-user-name" class="user-chip-name">J. Quiroz</span>
+            </button>
         </div>
     </header>
 
     <!-- Contenido Principal -->
     <main class="main-content">
 
-        <!-- ================= PESTAÑA 1: CRUD VISUAL ================= -->
-        <div id="tab-crud" class="tab-pane active">
-            <!-- Tarjetas Resumen KPIs -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <span class="kpi-title">Reactivos Químicos</span>
-                    <span class="kpi-value" id="kpi-reactivos">-</span>
-                    <span class="kpi-meta">Fórmulas y Fichas MSDS</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Biomateriales & Aleaciones</span>
-                    <span class="kpi-value" id="kpi-biomateriales">-</span>
-                    <span class="kpi-meta">Ti-Zr, Polímeros, Lotes</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Equipos Operativos</span>
-                    <span class="kpi-value" id="kpi-equipos">-</span>
-                    <span class="kpi-meta">Ensayos e Instrumentación</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Trazabilidad Total</span>
-                    <span class="kpi-value" id="kpi-movimientos">-</span>
-                    <span class="kpi-meta">Movimientos Registrados</span>
-                </div>
-                <div class="kpi-card alert">
-                    <span class="kpi-title">Alertas Críticas</span>
-                    <span class="kpi-value" id="kpi-alertas">-</span>
-                    <span class="kpi-meta">Control Térmico y Luz UV</span>
+        <!-- Barra de Búsqueda (Visible en catálogos) -->
+        <div id="catalog-search-bar" class="top-action-bar" style="display: none;">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="global-search-input" class="search-input" placeholder="Buscar por nombre, fórmula, lote, equipo o ubicación...">
+                <button id="btn-clear-search" class="btn-clear-search" title="Limpiar">&times;</button>
+            </div>
+            <div class="action-buttons-group">
+                <button class="btn-action-secondary" onclick="refreshAllData()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    <span>Sincronizar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= VISTA 1: DASHBOARD ================= -->
+        <div id="view-dashboard" class="view-pane active">
+            
+            <div class="dashboard-admin-header">
+                <h2 class="panel-title">Administración y Estadística</h2>
+                <div class="admin-toolbar-actions">
+                    <button class="btn-action-secondary" onclick="refreshAllData()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        <span>Recalcular</span>
+                    </button>
+                    <button id="btn-export-csv" class="btn-action-primary" onclick="exportarReporteCSV()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span>Exportar CSV</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Banner de Alertas Dinámicas -->
-            <div id="alerts-container" class="alerts-container"></div>
+            <!-- KPIs Analíticos -->
+            <section class="stat-kpi-grid">
+                <div class="stat-kpi-card">
+                    <span class="kpi-label">DISPONIBILIDAD OPERATIVA</span>
+                    <span class="kpi-value" id="stat-salud-pct">-</span>
+                    <span class="kpi-meta" id="stat-salud-meta">-</span>
+                </div>
+                <div class="stat-kpi-card">
+                    <span class="kpi-label">TASA DE REPOSICIÓN</span>
+                    <span class="kpi-value" id="stat-rotacion-ratio">-</span>
+                    <span class="kpi-meta" id="stat-rotacion-meta">-</span>
+                </div>
+                <div class="stat-kpi-card">
+                    <span class="kpi-label">RIESGO DE CONSERVACIÓN</span>
+                    <span class="kpi-value" id="stat-riesgo-pct">-</span>
+                    <span class="kpi-meta" id="stat-riesgo-meta">-</span>
+                </div>
+                <div class="stat-kpi-card">
+                    <span class="kpi-label">DISPERSIÓN DE STOCK (CV)</span>
+                    <span class="kpi-value" id="stat-cv-pct">-</span>
+                    <span class="kpi-meta" id="stat-cv-meta">-</span>
+                </div>
+            </section>
 
-            <!-- Sección 1: Reactivos Químicos -->
+            <!-- Gráficas de Pastel -->
+            <section class="charts-grid-2col">
+                <div class="section-panel chart-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Composición y Flujos</h3>
+                        <select id="pie1-mode" class="chart-select" onchange="renderPieChart1()">
+                            <option value="categorias">Activos por Categoría</option>
+                            <option value="movimientos">Movimientos por Tipo</option>
+                            <option value="abc">Clasificación ABC</option>
+                        </select>
+                    </div>
+                    <div class="pie-chart-container">
+                        <div id="pie1-svg-wrap" class="pie-svg-wrap"></div>
+                        <div id="pie1-legend" class="pie-legend"></div>
+                    </div>
+                </div>
+
+                <div class="section-panel chart-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Riesgos y Metrología</h3>
+                        <select id="pie2-mode" class="chart-select" onchange="renderPieChart2()">
+                            <option value="riesgos">Conservación Química</option>
+                            <option value="equipos">Estado de Equipos</option>
+                            <option value="alertas">Alertas Activas</option>
+                        </select>
+                    </div>
+                    <div class="pie-chart-container">
+                        <div id="pie2-svg-wrap" class="pie-svg-wrap"></div>
+                        <div id="pie2-legend" class="pie-legend"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Análisis ABC y Balance -->
+            <section class="charts-grid-2col">
+                <div class="section-panel chart-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Análisis ABC (Pareto)</h3>
+                    </div>
+                    <div id="pareto-chart-wrap" class="pareto-chart-wrap"></div>
+                    <div id="abc-summary-bars" class="abc-summary-bars"></div>
+                </div>
+
+                <div class="section-panel chart-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Balance de Transacciones</h3>
+                    </div>
+                    <div id="flow-chart-wrap" class="flow-chart-wrap"></div>
+                    <div id="flow-metrics-footer" class="flow-metrics-footer"></div>
+                </div>
+            </section>
+
+            <!-- Estadística Descriptiva -->
             <section class="section-panel">
                 <div class="panel-header">
-                    <h3 class="panel-title">🧪 Catálogo de Reactivos Químicos</h3>
-                    <div class="panel-actions">
-                        <button class="btn-accent" onclick="loadReactivos()">↻ Actualizar</button>
-                    </div>
+                    <h3 class="panel-title">Estadística Descriptiva</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nombre Comercial</th>
-                                <th>Fórmula</th>
-                                <th>Stock</th>
-                                <th>Ubicación</th>
-                                <th>Caducidad</th>
-                                <th>Condiciones de Seguridad & Almacenamiento</th>
+                                <th>Dimensión</th>
+                                <th>N</th>
+                                <th>Suma (&Sigma;)</th>
+                                <th>Media (x&#772;)</th>
+                                <th>Mediana (Me)</th>
+                                <th>Mín</th>
+                                <th>Máx</th>
+                                <th>Desv. Est. (s)</th>
+                                <th>CV (%)</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-reactivos">
-                            <!-- Inyectado por JS -->
-                        </tbody>
+                        <tbody id="tbody-descriptive-stats"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Sección 2: Aleaciones y Biomateriales -->
+            <!-- Matriz ABC y Punto de Reorden -->
             <section class="section-panel">
                 <div class="panel-header">
-                    <h3 class="panel-title">🔩 Aleaciones Metálicas y Biomateriales</h3>
-                    <div class="panel-actions">
-                        <button class="btn-accent" onclick="loadBiomateriales()">↻ Actualizar</button>
-                    </div>
+                    <h3 class="panel-title">Matriz ABC y Punto de Reorden (ROP)</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Tipo Material</th>
-                                <th>Nombre</th>
-                                <th>Lote</th>
-                                <th>Cantidad Disponible</th>
-                                <th>Especificaciones Técnicas</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-biomateriales">
-                            <!-- Inyectado por JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Sección 3: Equipos de Caracterización -->
-            <section class="section-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">🔬 Equipos de Caracterización e Instrumentación</h3>
-                    <div class="panel-actions">
-                        <button class="btn-accent" onclick="loadEquipos()">↻ Actualizar</button>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre del Equipo</th>
-                                <th>Estado Operativo</th>
-                                <th>Próxima Calibración</th>
-                                <th>Ubicación</th>
-                                <th>Responsable</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-equipos">
-                            <!-- Inyectado por JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Sección 4: Historial de Movimientos -->
-            <section class="section-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">📋 Historial de Movimientos (Trazabilidad)</h3>
-                    <div class="panel-actions">
-                        <button id="btn-nuevo-movimiento" class="btn-primary">+ Registrar Movimiento</button>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Transacción</th>
-                                <th>Tipo</th>
                                 <th>Categoría</th>
-                                <th>Material / Equipo</th>
-                                <th>Cantidad</th>
-                                <th>Exp / Lote</th>
-                                <th>Responsable</th>
-                                <th>Fecha & Hora</th>
+                                <th>Material</th>
+                                <th>Stock Actual</th>
+                                <th>Movimientos</th>
+                                <th>Participación</th>
+                                <th>Acumulado</th>
+                                <th>Clase</th>
+                                <th>ROP Sugerido</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-historial">
-                            <!-- Inyectado por JS -->
-                        </tbody>
+                        <tbody id="tbody-abc-rop"></tbody>
                     </table>
                 </div>
             </section>
         </div>
 
-        <!-- ================= PESTAÑA 2: ASISTENTE CONVERSACIONAL ================= -->
-        <div id="tab-chat" class="tab-pane">
+        <!-- ================= VISTA DEDICADA: ALERTAS ================= -->
+        <div id="view-alertas" class="view-pane">
+            <section class="section-panel alerts-dedicated-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Centro de Alertas</h2>
+                    <div class="panel-actions">
+                        <button class="btn-refresh-sm" onclick="loadAlertas()">Verificar</button>
+                    </div>
+                </div>
+
+                <div class="alert-summary-strip">
+                    <div class="alert-stat-box critical">
+                        <span class="alert-stat-label">CRÍTICAS</span>
+                        <span class="alert-stat-num" id="alert-count-critical">0</span>
+                    </div>
+                    <div class="alert-stat-box warning">
+                        <span class="alert-stat-label">PREVENTIVAS</span>
+                        <span class="alert-stat-num" id="alert-count-warning">0</span>
+                    </div>
+                    <div class="alert-stat-box info">
+                        <span class="alert-stat-label">REACTIVOS</span>
+                        <span class="alert-stat-num" id="alert-count-reactivos">0</span>
+                    </div>
+                    <div class="alert-stat-box info">
+                        <span class="alert-stat-label">EQUIPOS</span>
+                        <span class="alert-stat-num" id="alert-count-equipos">0</span>
+                    </div>
+                    <div class="alert-stat-box info">
+                        <span class="alert-stat-label">INSUMOS</span>
+                        <span class="alert-stat-num" id="alert-count-insumos">0</span>
+                    </div>
+                </div>
+
+                <div class="alert-filter-bar">
+                    <button class="alert-filter-btn active" data-filter="ALL" onclick="filterAlertList('ALL', this)">Todas</button>
+                    <button class="alert-filter-btn" data-filter="CRITICO" onclick="filterAlertList('CRITICO', this)">Críticas</button>
+                    <button class="alert-filter-btn" data-filter="ADVERTENCIA" onclick="filterAlertList('ADVERTENCIA', this)">Preventivas</button>
+                    <button class="alert-filter-btn" data-filter="REACTIVO" onclick="filterAlertList('REACTIVO', this)">Reactivos</button>
+                    <button class="alert-filter-btn" data-filter="EQUIPO" onclick="filterAlertList('EQUIPO', this)">Equipos</button>
+                    <button class="alert-filter-btn" data-filter="INSUMO_GENERAL" onclick="filterAlertList('INSUMO_GENERAL', this)">Insumos</button>
+                </div>
+
+                <div id="alerts-container" class="alerts-container"></div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: REACTIVOS QUÍMICOS ================= -->
+        <div id="view-reactivos" class="view-pane">
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Reactivos Químicos</h2>
+                    <div class="panel-actions">
+                        <button class="btn-action-primary-sm" onclick="openModalReactivo()">+ Nuevo Reactivo</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-reactivos">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th>Nombre</th>
+                                <th>Fórmula</th>
+                                <th>Stock</th>
+                                <th>Ubicación</th>
+                                <th>Caducidad</th>
+                                <th>Seguridad y Conservación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-reactivos"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: BIOMATERIALES & ALEACIONES ================= -->
+        <div id="view-biomateriales" class="view-pane">
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Aleaciones y Biomateriales</h2>
+                    <div class="panel-actions">
+                        <button class="btn-action-primary-sm" onclick="openModalBiomaterial()">+ Nuevo Biomaterial</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-biomateriales">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th>Tipo</th>
+                                <th>Material</th>
+                                <th>Lote</th>
+                                <th>Disponible</th>
+                                <th>Especificaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-biomateriales"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: INSUMOS GENERALES Y EPP ================= -->
+        <div id="view-insumos" class="view-pane">
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Insumos Generales y EPP</h2>
+                    <div class="panel-actions">
+                        <button class="btn-action-primary-sm" onclick="openModalInsumo()">+ Nuevo Insumo</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-insumos">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th>Categoría</th>
+                                <th>Insumo</th>
+                                <th>Stock</th>
+                                <th>Mínimo</th>
+                                <th>Ubicación</th>
+                                <th>Especificaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-insumos"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: EQUIPOS DE CARACTERIZACIÓN ================= -->
+        <div id="view-equipos" class="view-pane">
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Equipos e Instrumentación</h2>
+                    <div class="panel-actions">
+                        <button class="btn-action-primary-sm" onclick="openModalEquipo()">+ Nuevo Equipo</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-equipos">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th>Equipo</th>
+                                <th>Estado</th>
+                                <th>Próxima Calibración</th>
+                                <th>Ubicación</th>
+                                <th>Responsable</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-equipos"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: HISTORIAL Y TRAZABILIDAD ================= -->
+        <div id="view-historial" class="view-pane">
+            <section class="section-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Historial de Movimientos</h2>
+                    <div class="panel-actions">
+                        <button class="btn-action-primary-sm" onclick="openModalMovimiento()">+ Registrar</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-historial">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Folio</th>
+                                <th>Operación</th>
+                                <th>Categoría</th>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Experimento / Lote</th>
+                                <th>Responsable</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-historial"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: PLANIFICADOR DE LOTES ================= -->
+        <div id="view-planificador" class="view-pane">
+            <div class="planner-layout">
+                <div class="section-panel planner-card">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Planificador de Lotes</h2>
+                    </div>
+
+                    <div class="planner-form-box">
+                        <label class="form-label" for="planner-input">Materiales del lote experimental:</label>
+                        <div class="planner-input-group">
+                            <input type="text" id="planner-input" class="planner-input" placeholder="Ej: titanio-zirconio, bismuto de cobre y fluido de micras">
+                            <button id="btn-evaluar-lote" class="btn-action-primary" onclick="evaluarLoteExperimental()">
+                                <span>Evaluar</span>
+                            </button>
+                        </div>
+                        <div class="planner-presets">
+                            <button class="preset-btn" onclick="setPlannerPreset('titanio-zirconio y nitinol')">Ti-Zr + Nitinol</button>
+                            <button class="preset-btn" onclick="setPlannerPreset('bismuto de cobre y fluido de micras')">Bismuto + Fluido de Micras</button>
+                            <button class="preset-btn" onclick="setPlannerPreset('quitosano y ácido hialurónico')">Quitosano + Ácido Hialurónico</button>
+                        </div>
+                    </div>
+
+                    <div id="planner-results" class="planner-results-container">
+                        <div class="planner-empty-state">
+                            <p>Ingresa los materiales requeridos para verificar disponibilidad y restricciones de conservación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VISTA: HABLA CON MAKILA ================= -->
+        <div id="view-chat" class="view-pane">
             <div class="chat-layout">
-                <!-- Barra lateral con prompts y guardrails -->
+                
                 <aside class="chat-sidebar">
-                    <div>
-                        <h4 class="sidebar-title">⚡ Consultas Frecuentes</h4>
-                        <div class="quick-prompts-list" style="margin-top:0.6rem;">
+                    <div class="sidebar-block">
+                        <div class="sidebar-header">
+                            <h3 class="sidebar-title">Consultas rápidas</h3>
+                        </div>
+                        <div class="quick-prompts-list">
                             <button class="quick-prompt-btn" data-prompt="¿Cuánto stock tenemos de sistemas titanio-zirconio?">
-                                🔍 Stock de Titanio-Zirconio
+                                <span>Stock de Titanio-Zirconio</span>
                             </button>
                             <button class="quick-prompt-btn" data-prompt="Consultar condiciones de almacenamiento de fluido de micras">
-                                🧪 Cuidados de Fluido de Micras (Luz UV)
+                                <span>Almacenamiento Fluido de Micras</span>
                             </button>
                             <button class="quick-prompt-btn" data-prompt="Verificar ficha de seguridad y temperatura para bismuto de cobre">
-                                ❄️ MSDS Bismuto de Cobre (&lt; 30°C)
+                                <span>MSDS Bismuto de Cobre (&lt; 30°C)</span>
                             </button>
                             <button class="quick-prompt-btn" data-prompt="¿Qué equipos están pendientes de calibración o en mantenimiento?">
-                                🔬 Estado y Calibración de Equipos
+                                <span>Calibración de Equipos</span>
                             </button>
                             <button class="quick-prompt-btn" data-prompt="Registrar salida de 5 barras de sistemas titanio-zirconio para EXP-BIO-99">
-                                📦 Registrar Salida Controlada
+                                <span>Salida 5 barras Ti-Zr (EXP-BIO-99)</span>
                             </button>
-                            <button class="quick-prompt-btn" data-prompt="Registrar salida de 500 barras de titanio">
-                                🛡️ Probar Guardrail: Stock Excesivo
-                            </button>
-                            <button class="quick-prompt-btn" data-prompt="Registrar consumo de 10 g de Platino inexistente">
-                                🛡️ Probar Guardrail: Item Inexistente
-                            </button>
-                            <button class="quick-prompt-btn" data-prompt="' OR 1=1; DROP TABLE reactivos_quimicos; --">
-                                🛡️ Probar Guardrail: Inyección SQL
+                            <button class="quick-prompt-btn" data-prompt="¿Cuánto stock tenemos de aleación?">
+                                <span>Desambiguación: "aleación"</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="guardrail-card">
-                        <h5>🛡️ Guardrails Activos (P07)</h5>
-                        <p>✓ Validación en código de stock suficiente antes de descontar.</p>
-                        <p>✓ Bloqueo estricto de identificadores inexistentes.</p>
-                        <p>✓ Prevención contra Prompt Injection y SQL Injection.</p>
-                        <p>✓ Desambiguación interactiva ante coincidencias parciales.</p>
+                    <div class="guardrail-status-card">
+                        <span class="guardrail-card-title">Protección P07 activa: SQL parametrizado y validación de stock.</span>
                     </div>
                 </aside>
 
-                <!-- Área Central de Chat -->
                 <section class="chat-container">
                     <div class="chat-header">
-                        <div class="chat-header-title">
-                            <span>🤖</span> Asistente Agéntico de Laboratorio Makila
-                        </div>
-                        <span class="badge-tag">Function Calling Seguro</span>
+                        <span class="chat-title-text">Habla con Makila</span>
+                        <span id="chat-user-tag" class="badge-tag-light">Sesión: J. Quiroz</span>
                     </div>
 
                     <div id="chat-messages" class="chat-messages">
                         <div class="message-bubble agent">
-                            <div class="tool-indicator">Agente Inicializado</div>
-                            <p>¡Hola! Soy <strong>Makila</strong>, tu asistente inteligente para el control de inventario biomédico del laboratorio.</p>
-                            <p style="margin-top: 0.4rem;">Puedo asistirte en la consulta de existencias, verificación de fichas MSDS (como el control térmico de bismuto de cobre o aislamiento lumínico de fluido de micras), estado de calibración de instrumentos y registro trazable de entradas, salidas o consumos vinculados a experimentos.</p>
+                            <p>Hola, soy <strong>Makila</strong>. ¿Qué material, equipo o experimento revisamos hoy?</p>
                         </div>
                     </div>
 
                     <form id="chat-form" class="chat-input-bar">
-                        <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu consulta o instrucción de inventario (ej: ¿Cuánto titanio-zirconio queda?)..." autocomplete="off">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu consulta o movimiento..." autocomplete="off">
                         <button type="submit" class="btn-send">Enviar</button>
                     </form>
                 </section>
@@ -254,67 +506,345 @@
 
     </main>
 
-    <!-- Modal para Registrar Movimiento Manual -->
+    <!-- Modal para Registrar Movimiento -->
     <div id="modal-movimiento" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <h3 class="modal-title">Registrar Movimiento de Inventario</h3>
-                <button id="close-modal-btn" class="close-btn">&times;</button>
+                <h3 class="modal-title">Registrar Movimiento</h3>
+                <button id="close-modal-btn" class="close-btn" title="Cerrar">&times;</button>
             </div>
-            <form id="form-movimiento">
-                <div class="form-group">
-                    <label class="form-label" for="mov-tipo">Tipo de Movimiento</label>
-                    <select id="mov-tipo" class="form-select" required>
-                        <option value="ENTRADA">ENTRADA (Recepción / Abastecimiento)</option>
-                        <option value="SALIDA">SALIDA (Transferencia externa)</option>
-                        <option value="CONSUMO">CONSUMO (Uso en ensayo de laboratorio)</option>
-                    </select>
+            <form id="form-movimiento" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="mov-tipo">Operación</label>
+                        <select id="mov-tipo" class="form-select" required>
+                            <option value="ENTRADA">ENTRADA</option>
+                            <option value="SALIDA">SALIDA</option>
+                            <option value="CONSUMO">CONSUMO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mov-categoria">Categoría</label>
+                        <select id="mov-categoria" class="form-select" required>
+                            <option value="REACTIVO">Reactivo Químico</option>
+                            <option value="BIOMATERIAL">Aleación / Biomaterial</option>
+                            <option value="INSUMO_GENERAL">Insumo General (EPP / Material)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-categoria">Categoría</label>
-                    <select id="mov-categoria" class="form-select" required>
-                        <option value="REACTIVO">Reactivo Químico</option>
-                        <option value="BIOMATERIAL">Aleación / Biomaterial</option>
-                    </select>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="mov-id">ID Material</label>
+                        <input type="number" id="mov-id" class="form-input" required placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mov-cantidad">Cantidad</label>
+                        <input type="number" step="any" id="mov-cantidad" class="form-input" required placeholder="5.0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mov-unidad">Unidad</label>
+                        <input type="text" id="mov-unidad" class="form-input" placeholder="g, mL, barras">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-id">ID del Material en Catálogo</label>
-                    <input type="number" id="mov-id" class="form-input" required placeholder="Ej: 1">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="mov-experimento">Experimento / Lote</label>
+                        <input type="text" id="mov-experimento" class="form-input" required placeholder="EXP-BIO-2026">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mov-usuario">Responsable</label>
+                        <input type="text" id="mov-usuario" class="form-input" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="form-label" for="mov-cantidad">Cantidad a Mover</label>
-                    <input type="number" step="any" id="mov-cantidad" class="form-input" required placeholder="Ej: 5.0">
+                    <label class="form-label" for="mov-notas">Observaciones</label>
+                    <input type="text" id="mov-notas" class="form-input" placeholder="Opcional">
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-unidad">Unidad de Medida (Opcional)</label>
-                    <input type="text" id="mov-unidad" class="form-input" placeholder="g, mL, barras, láminas">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-experimento">Experimento o Lote Vinculado</label>
-                    <input type="text" id="mov-experimento" class="form-input" required placeholder="Ej: EXP-BIO-2026-TRAC02">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-usuario">Usuario Responsable</label>
-                    <input type="text" id="mov-usuario" class="form-input" required placeholder="Ej: Dr. José Martín Quiroz">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="mov-notas">Notas u Observaciones</label>
-                    <input type="text" id="mov-notas" class="form-input" placeholder="Ej: Ensayos de fatiga mecánica en probetas">
-                </div>
+
                 <div class="modal-actions">
-                    <button type="button" id="cancel-modal-btn" class="btn-accent">Cancelar</button>
-                    <button type="submit" class="btn-primary">Guardar Transacción</button>
+                    <button type="button" id="cancel-modal-btn" class="btn-action-secondary">Cancelar</button>
+                    <button type="submit" class="btn-action-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Pie de página -->
+    <!-- Modal: Nuevo Reactivo Químico -->
+    <div id="modal-reactivo" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Reactivo Químico</h3>
+                <button class="close-btn" onclick="closeCatalogModal('modal-reactivo')" title="Cerrar">&times;</button>
+            </div>
+            <form id="form-nuevo-reactivo" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reac-nombre">Nombre Comercial</label>
+                        <input type="text" id="reac-nombre" class="form-input" required placeholder="Ej: Cloruro de Calcio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reac-formula">Fórmula</label>
+                        <input type="text" id="reac-formula" class="form-input" required placeholder="Ej: CaCl2">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reac-cantidad">Stock Inicial</label>
+                        <input type="number" step="any" min="0" id="reac-cantidad" class="form-input" required placeholder="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reac-unidad">Unidad</label>
+                        <input type="text" id="reac-unidad" class="form-input" required placeholder="g, mL, L">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reac-caducidad">Fecha de Caducidad</label>
+                        <input type="date" id="reac-caducidad" class="form-input" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reac-ubicacion">Ubicación en Laboratorio</label>
+                        <input type="text" id="reac-ubicacion" class="form-input" required placeholder="Ej: Refrigerador R-01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reac-temp">Temp. Máxima (°C, opcional)</label>
+                        <input type="number" step="any" id="reac-temp" class="form-input" placeholder="Ej: 25">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; font-weight:600; cursor:pointer;">
+                        <input type="checkbox" id="reac-luz"> Requiere aislamiento de luz solar UV (fotosensible)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reac-seguridad">Estado de Seguridad / Almacenamiento</label>
+                    <input type="text" id="reac-seguridad" class="form-input" required placeholder="Ej: Mantener en envase cerrado, lugar seco">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reac-msds">Resumen Ficha MSDS</label>
+                    <input type="text" id="reac-msds" class="form-input" placeholder="Ej: MSDS-05: Uso con guantes y campana de extracción">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-action-secondary" onclick="closeCatalogModal('modal-reactivo')">Cancelar</button>
+                    <button type="submit" class="btn-action-primary">Guardar Reactivo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Biomaterial / Aleación -->
+    <div id="modal-biomaterial" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Biomaterial o Aleación</h3>
+                <button class="close-btn" onclick="closeCatalogModal('modal-biomaterial')" title="Cerrar">&times;</button>
+            </div>
+            <form id="form-nuevo-biomaterial" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="bio-tipo">Tipo de Material</label>
+                        <input type="text" id="bio-tipo" class="form-input" required placeholder="Ej: Aleación Ti-Zr, Polímero, Cerámico">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bio-nombre">Nombre del Sistema</label>
+                        <input type="text" id="bio-nombre" class="form-input" required placeholder="Ej: Hidroxiapatita Porosa HA-99">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="bio-lote">Lote</label>
+                        <input type="text" id="bio-lote" class="form-input" required placeholder="Ej: LOT-HA-2026-01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bio-cantidad">Cantidad Disponible</label>
+                        <input type="number" step="any" min="0" id="bio-cantidad" class="form-input" required placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bio-unidad">Unidad</label>
+                        <input type="text" id="bio-unidad" class="form-input" required placeholder="barras, g, láminas, piezas">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="bio-specs">Especificaciones Técnicas</label>
+                    <input type="text" id="bio-specs" class="form-input" required placeholder="Ej: Grado implante ASTM, pureza 99.5%, ensayos mecánicos">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-action-secondary" onclick="closeCatalogModal('modal-biomaterial')">Cancelar</button>
+                    <button type="submit" class="btn-action-primary">Guardar Biomaterial</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Equipo / Máquina -->
+    <div id="modal-equipo" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Equipo o Instrumento</h3>
+                <button class="close-btn" onclick="closeCatalogModal('modal-equipo')" title="Cerrar">&times;</button>
+            </div>
+            <form id="form-nuevo-equipo" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label" for="eq-nombre">Nombre del Equipo / Máquina</label>
+                    <input type="text" id="eq-nombre" class="form-input" required placeholder="Ej: Microscopio Electrónico de Barrido SEM">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="eq-estado">Estado Operativo</label>
+                        <select id="eq-estado" class="form-select" required>
+                            <option value="OPERATIVO">OPERATIVO</option>
+                            <option value="EN_MANTENIMIENTO">EN_MANTENIMIENTO</option>
+                            <option value="FUERA_DE_SERVICIO">FUERA_DE_SERVICIO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eq-calibracion">Próxima Calibración</label>
+                        <input type="date" id="eq-calibracion" class="form-input" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="eq-ubicacion">Ubicación</label>
+                        <input type="text" id="eq-ubicacion" class="form-input" required placeholder="Ej: Lab de Caracterización B-102">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eq-responsable">Responsable Técnico</label>
+                        <input type="text" id="eq-responsable" class="form-input" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-action-secondary" onclick="closeCatalogModal('modal-equipo')">Cancelar</button>
+                    <button type="submit" class="btn-action-primary">Guardar Equipo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Insumo General / EPP -->
+    <div id="modal-insumo" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Nuevo Insumo General</h3>
+                <button class="close-btn" onclick="closeCatalogModal('modal-insumo')" title="Cerrar">&times;</button>
+            </div>
+            <form id="form-nuevo-insumo" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="ins-categoria">Categoría</label>
+                        <select id="ins-categoria" class="form-select" required>
+                            <option value="EPP">EPP (Guantes, Cofias, Batas)</option>
+                            <option value="Cristalería">Cristalería (Matraces, Probetas)</option>
+                            <option value="Preparación">Preparación (Lumina, Abrasivos)</option>
+                            <option value="Limpieza Crítica">Limpieza Crítica (Paños, Toallas)</option>
+                            <option value="Consumible General">Consumible General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ins-nombre">Nombre del Insumo</label>
+                        <input type="text" id="ins-nombre" class="form-input" required placeholder="Ej: Guantes de nitrilo, Matraces 500 mL, Paños">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="ins-cantidad">Stock Inicial</label>
+                        <input type="number" step="any" min="0" id="ins-cantidad" class="form-input" required placeholder="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ins-unidad">Unidad</label>
+                        <input type="text" id="ins-unidad" class="form-input" required placeholder="pares, piezas, cajas, mL, hojas">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ins-minimo">Stock Mínimo (Alerta)</label>
+                        <input type="number" step="any" min="0" id="ins-minimo" class="form-input" required placeholder="20">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="ins-ubicacion">Ubicación</label>
+                    <input type="text" id="ins-ubicacion" class="form-input" required placeholder="Ej: Estación de Bioseguridad E-01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="ins-specs">Especificaciones</label>
+                    <input type="text" id="ins-specs" class="form-input" required placeholder="Ej: Talla M, libre de látex / Borosilicato 3.3">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-action-secondary" onclick="closeCatalogModal('modal-insumo')">Cancelar</button>
+                    <button type="submit" class="btn-action-primary">Guardar Insumo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Gestión de Usuario Simulado (Local / Sin Hosting Externo) -->
+    <div id="modal-usuario" class="modal-overlay">
+        <div class="modal-box modal-user-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Cuenta de Usuario</h3>
+                <button id="close-user-modal-btn" class="close-btn" title="Cerrar">&times;</button>
+            </div>
+
+            <!-- Perfil Activo -->
+            <div id="user-active-card" class="user-active-card">
+                <div class="user-card-left">
+                    <div id="modal-user-initials" class="user-initials-lg">JQ</div>
+                    <div>
+                        <div id="modal-user-fullname" class="user-fullname">José Martín Quiroz Castro</div>
+                        <div id="modal-user-email" class="user-email">j.quiroz@cucei.udg.mx</div>
+                        <span id="modal-user-role" class="badge-tag" style="margin-top:4px;">Administrador</span>
+                    </div>
+                </div>
+                <button id="btn-logout-sim" class="btn-action-secondary" onclick="logoutSimulatedUser()">Cerrar sesión</button>
+            </div>
+
+            <!-- Cambio Rápido de Perfil -->
+            <div class="user-section-block">
+                <span class="form-label">Cambiar perfil rápido</span>
+                <div id="user-presets-grid" class="user-presets-grid"></div>
+            </div>
+
+            <!-- Login / Crear Perfil Local -->
+            <form id="form-user-login" class="modal-form user-section-block">
+                <span class="form-label">Ingresar o editar credenciales locales</span>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="user-input-name">Nombre completo</label>
+                        <input type="text" id="user-input-name" class="form-input" required placeholder="Nombre del investigador">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="user-input-email">Correo institucional</label>
+                        <input type="email" id="user-input-email" class="form-input" required placeholder="usuario@cucei.udg.mx">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="user-input-role">Rol en laboratorio</label>
+                        <select id="user-input-role" class="form-select">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Investigador">Investigador</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:flex-end;">
+                    <button type="submit" class="btn-action-primary-sm">Aplicar sesión</button>
+                </div>
+            </form>
+
+            <!-- Bitácora Local de Sesión -->
+            <div class="user-section-block">
+                <span class="form-label">Actividad reciente en esta sesión</span>
+                <div id="user-session-log" class="user-session-log"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de Página -->
     <footer class="app-footer">
-        <p>Makila v1.0 • Tópicos de Ingeniería Biomédica II • Universidad de Guadalajara (CUCEI) • Desarrollado por José Martín Quiroz Castro</p>
+        <div class="footer-content">
+            <p>MAKILA • Laboratorio de Biomateriales, CUCEI — Universidad de Guadalajara</p>
+        </div>
     </footer>
 
-    <script src="/js/app.js"></script>
+    <script src="/js/app.js?v=8"></script>
 </body>
 </html>
-

@@ -10,4 +10,3 @@ public class MakilaApplication {
         SpringApplication.run(MakilaApplication.class, args);
     }
 }
-

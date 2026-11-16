@@ -8,6 +8,7 @@ import com.makila.domain.model.AgentToolResult;
 import com.makila.domain.model.AleacionBiomaterial;
 import com.makila.domain.model.CategoriaMaterial;
 import com.makila.domain.model.EquipoCaracterizacion;
+import com.makila.domain.model.InsumoGeneral;
 import com.makila.domain.model.MovimientoInventario;
 import com.makila.domain.model.ReactivoQuimico;
 import com.makila.domain.model.TipoMovimiento;
@@ -162,8 +163,9 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
 
         List<ReactivoQuimico> reactivos = catalogoPort.buscarReactivos(clean);
         List<AleacionBiomaterial> biomateriales = catalogoPort.buscarBiomateriales(clean);
+        List<InsumoGeneral> insumos = catalogoPort.buscarInsumosGenerales(clean);
 
-        int totalCoincidencias = reactivos.size() + biomateriales.size();
+        int totalCoincidencias = reactivos.size() + biomateriales.size() + insumos.size();
 
         if (totalCoincidencias == 0) {
             throw new RegistroNoEncontradoException(
@@ -179,6 +181,9 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
             for (AleacionBiomaterial b : biomateriales) {
                 opciones.add("[Biomaterial] " + b.getNombre() + " (Lote: " + b.getLote() + ") - Stock: " + b.getCantidadDisponible() + " " + b.getUnidad());
             }
+            for (InsumoGeneral ins : insumos) {
+                opciones.add("[Insumo General] " + ins.getNombre() + " (" + ins.getCategoriaInsumo() + ") - Stock: " + ins.getCantidad() + " " + ins.getUnidad());
+            }
             throw new MaterialAmbiguoException(clean, opciones);
         }
 
@@ -187,11 +192,16 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
             String respuesta = String.format("Stock disponible de %s (%s): %.2f %s. Ubicación: %s. Caducidad: %s.",
                     r.getNombre(), r.getFormula(), r.getCantidad(), r.getUnidad(), r.getUbicacion(), r.getFechaCaducidad());
             return AgentToolResult.success("consultar_stock", respuesta, r);
-        } else {
+        } else if (!biomateriales.isEmpty()) {
             AleacionBiomaterial b = biomateriales.get(0);
             String respuesta = String.format("Stock disponible de %s (Lote %s): %.2f %s. Especificaciones: %s.",
                     b.getNombre(), b.getLote(), b.getCantidadDisponible(), b.getUnidad(), b.getEspecificacionesTecnicas());
             return AgentToolResult.success("consultar_stock", respuesta, b);
+        } else {
+            InsumoGeneral ins = insumos.get(0);
+            String respuesta = String.format("Stock disponible de %s (%s): %.2f %s. Ubicación: %s. Especificaciones: %s.",
+                    ins.getNombre(), ins.getCategoriaInsumo(), ins.getCantidad(), ins.getUnidad(), ins.getUbicacion(), ins.getEspecificaciones());
+            return AgentToolResult.success("consultar_stock", respuesta, ins);
         }
     }
 
@@ -207,8 +217,9 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
 
         List<ReactivoQuimico> reactivos = catalogoPort.buscarReactivos(clean);
         List<AleacionBiomaterial> biomats = catalogoPort.buscarBiomateriales(clean);
+        List<InsumoGeneral> insumos = catalogoPort.buscarInsumosGenerales(clean);
 
-        int total = reactivos.size() + biomats.size();
+        int total = reactivos.size() + biomats.size() + insumos.size();
         if (total == 0) {
             throw new RegistroNoEncontradoException(
                     String.format("Operación denegada por Guardrail P07: No se encontró el material '%s' para registrar el movimiento.", clean));
@@ -219,6 +230,7 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
             List<String> opciones = new ArrayList<>();
             reactivos.forEach(r -> opciones.add("[Reactivo ID:" + r.getId() + "] " + r.getNombre()));
             biomats.forEach(b -> opciones.add("[Biomaterial ID:" + b.getId() + "] " + b.getNombre() + " - " + b.getLote()));
+            insumos.forEach(ins -> opciones.add("[Insumo ID:" + ins.getId() + "] " + ins.getNombre()));
             throw new MaterialAmbiguoException(clean, opciones);
         }
 
@@ -234,10 +246,14 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
             ReactivoQuimico r = reactivos.get(0);
             mov.setCategoria(CategoriaMaterial.REACTIVO);
             mov.setItemId(r.getId());
-        } else {
+        } else if (!biomats.isEmpty()) {
             AleacionBiomaterial b = biomats.get(0);
             mov.setCategoria(CategoriaMaterial.BIOMATERIAL);
             mov.setItemId(b.getId());
+        } else {
+            InsumoGeneral ins = insumos.get(0);
+            mov.setCategoria(CategoriaMaterial.INSUMO_GENERAL);
+            mov.setItemId(ins.getId());
         }
 
         MovimientoInventario registrado = movimientosPort.registrarMovimiento(mov);
@@ -311,15 +327,17 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
         List<ReactivoQuimico> reactivos = catalogoPort.buscarReactivos(clean);
         List<AleacionBiomaterial> biomats = catalogoPort.buscarBiomateriales(clean);
         List<EquipoCaracterizacion> equipos = catalogoPort.buscarEquipos(clean);
+        List<InsumoGeneral> insumos = catalogoPort.buscarInsumosGenerales(clean);
 
         Map<String, Object> resultados = new HashMap<>();
         resultados.put("reactivos", reactivos);
         resultados.put("biomateriales", biomats);
         resultados.put("equipos", equipos);
+        resultados.put("insumos", insumos);
 
-        int total = reactivos.size() + biomats.size() + equipos.size();
-        String respuesta = String.format("Búsqueda finalizada para '%s'. Se encontraron %d resultados en total (%d reactivos, %d biomateriales, %d equipos).",
-                clean, total, reactivos.size(), biomats.size(), equipos.size());
+        int total = reactivos.size() + biomats.size() + equipos.size() + insumos.size();
+        String respuesta = String.format("Búsqueda finalizada para '%s'. Se encontraron %d resultados en total (%d reactivos, %d biomateriales, %d equipos, %d insumos).",
+                clean, total, reactivos.size(), biomats.size(), equipos.size(), insumos.size());
 
         return AgentToolResult.success("buscar_materiales", respuesta, resultados);
     }
@@ -375,9 +393,9 @@ public class DeterministicFunctionCallingAgent implements LlmServicePort {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("📋 **Planificación de Lote de Ensayos Biomédicos**:\n");
-        sb.append(todosViables ? "✅ **ESTADO: VIABLE** (Todos los insumos cuentan con stock disponible)\n" 
-                               : "⚠️ **ESTADO: REQUIERE ABASTECIMIENTO**\n");
+        sb.append("[PLAN] **Planificación de Lote de Ensayos Biomédicos**:\n");
+        sb.append(todosViables ? "[VIABLE] **ESTADO: VIABLE** (Todos los insumos cuentan con stock disponible)\n" 
+                               : "[ALERTA] **ESTADO: REQUIERE ABASTECIMIENTO**\n");
         for (PlanificadorExperimentoDTO.RequerimientoItem item : items) {
             sb.append(String.format("- %s: Stock actual %.2f %s. %s\n",
                     item.getMaterial(), item.getStockActual(), item.getUnidad(), item.getAdvertenciaSeguridad()));

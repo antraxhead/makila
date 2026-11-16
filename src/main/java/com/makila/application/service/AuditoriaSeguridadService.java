@@ -5,12 +5,15 @@ import com.makila.application.dto.DashboardStatsDTO;
 import com.makila.domain.model.AleacionBiomaterial;
 import com.makila.domain.model.EquipoCaracterizacion;
 import com.makila.domain.model.EstadoEquipo;
+import com.makila.domain.model.InsumoGeneral;
 import com.makila.domain.model.ReactivoQuimico;
 import com.makila.domain.port.in.AuditoriaSeguridadPort;
 import com.makila.domain.port.out.BiomaterialRepositoryPort;
 import com.makila.domain.port.out.EquipoRepositoryPort;
+import com.makila.domain.port.out.InsumoGeneralRepositoryPort;
 import com.makila.domain.port.out.MovimientoRepositoryPort;
 import com.makila.domain.port.out.ReactivoRepositoryPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,15 +28,26 @@ public class AuditoriaSeguridadService implements AuditoriaSeguridadPort {
     private final ReactivoRepositoryPort reactivoRepo;
     private final BiomaterialRepositoryPort biomaterialRepo;
     private final EquipoRepositoryPort equipoRepo;
+    private final InsumoGeneralRepositoryPort insumoRepo;
     private final MovimientoRepositoryPort movimientoRepo;
 
     public AuditoriaSeguridadService(ReactivoRepositoryPort reactivoRepo,
                                    BiomaterialRepositoryPort biomaterialRepo,
                                    EquipoRepositoryPort equipoRepo,
                                    MovimientoRepositoryPort movimientoRepo) {
+        this(reactivoRepo, biomaterialRepo, equipoRepo, null, movimientoRepo);
+    }
+
+    @Autowired
+    public AuditoriaSeguridadService(ReactivoRepositoryPort reactivoRepo,
+                                   BiomaterialRepositoryPort biomaterialRepo,
+                                   EquipoRepositoryPort equipoRepo,
+                                   InsumoGeneralRepositoryPort insumoRepo,
+                                   MovimientoRepositoryPort movimientoRepo) {
         this.reactivoRepo = reactivoRepo;
         this.biomaterialRepo = biomaterialRepo;
         this.equipoRepo = equipoRepo;
+        this.insumoRepo = insumoRepo;
         this.movimientoRepo = movimientoRepo;
     }
 
@@ -108,6 +122,25 @@ public class AuditoriaSeguridadService implements AuditoriaSeguridadPort {
                     "EQUIPO",
                     e.getId()
             ));
+        }
+
+        // Revisar insumos generales con stock bajo o agotado
+        if (insumoRepo != null) {
+            for (InsumoGeneral ins : insumoRepo.findAll()) {
+                if (ins.estaEnStockBajo()) {
+                    AlertaSeguridadDTO.NivelAlerta nivel = (ins.getCantidad() != null && ins.getCantidad() <= 0)
+                            ? AlertaSeguridadDTO.NivelAlerta.CRITICO
+                            : AlertaSeguridadDTO.NivelAlerta.ADVERTENCIA;
+                    alertas.add(new AlertaSeguridadDTO(
+                            nivel,
+                            "Stock Bajo de Insumo: " + ins.getNombre(),
+                            "Disponible: " + ins.getCantidad() + " " + ins.getUnidad() + " (Mínimo requerido: " + ins.getStockMinimo() + ")",
+                            "Solicitar reposición para " + ins.getUbicacion(),
+                            "INSUMO_GENERAL",
+                            ins.getId()
+                    ));
+                }
+            }
         }
 
         return alertas;

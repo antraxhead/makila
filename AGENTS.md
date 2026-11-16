@@ -80,3 +80,8 @@ Cualquier agente debe validar el proyecto ejecutando estos comandos:
 6. **Calidad y Verificación (P09):**
    - Toda nueva funcionalidad o caso de uso debe contar con su correspondiente prueba automatizada en `src/test/java/com/makila/`.
    - Mantener el 100% de la suite de pruebas en estado verde (`BUILD SUCCESSFUL`).
+7. **Prohibición Total de Emojis y Directrices UI/UX (Requisito Obligatorio):**
+   - **Queda estrictamente prohibido el uso de emojis** en cualquier parte del proyecto: interfaz web, mensajes del asistente agéntico, logs, respuestas JSON, backend, plantillas HTML, estilos CSS y scripts.
+   - En su lugar, utilizar tipografía técnica sobria, indicadores textuales estandarizados entre corchetes (ej. `[INFO]`, `[ALERTA]`, `[CRITICO]`, `[OPTIMO]`, `[TOOL]`, `[GUARDRAIL]`) o iconografía vectorial SVG minimalista y nítida.
+   - **Esquinas Afiladas Obligatorias:** Todo elemento visual (tarjetas, botones, inputs, tablas, modales, burbujas de diálogo) debe tener esquinas completamente rectas y afiladas (`border-radius: 0 !important`). No se permiten bordes redondeados.
+   - **Apariencia Glasslike (Glassmorphism Profesional):** El fondo y los contenedores de la UI deben presentar acabado de vidrio esmerilado translúcido con `backdrop-filter: blur(...)`, bordes de cristal sutiles de 1px y reflejos ergonómicos basados en la paleta oficial (Valencia `#343434`, Carnation `#F3505A`, Gallery `#ECEBEA`, Venice Blue `#085979`, Fountain Blue `#64BABE`), sin utilizar blanco puro (`#FFFFFF`) de fondo para evitar fatiga visual en jornadas de laboratorio.

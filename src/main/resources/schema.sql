@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS equipos_caracterizacion (
 CREATE TABLE IF NOT EXISTS historial_movimientos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tipo_movimiento TEXT NOT NULL CHECK(tipo_movimiento IN ('ENTRADA', 'SALIDA', 'CONSUMO')),
-    categoria TEXT NOT NULL CHECK(categoria IN ('REACTIVO', 'BIOMATERIAL', 'EQUIPO')),
+    categoria TEXT NOT NULL CHECK(categoria IN ('REACTIVO', 'BIOMATERIAL', 'EQUIPO', 'INSUMO_GENERAL')),
     item_id INTEGER NOT NULL,
     item_nombre TEXT NOT NULL,
     cantidad REAL NOT NULL CHECK(cantidad > 0),
@@ -47,8 +47,20 @@ CREATE TABLE IF NOT EXISTS historial_movimientos (
     notas TEXT
 );
 
+CREATE TABLE IF NOT EXISTS insumos_generales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    categoria_insumo TEXT NOT NULL,
+    nombre TEXT NOT NULL,
+    cantidad REAL NOT NULL CHECK(cantidad >= 0),
+    unidad TEXT NOT NULL,
+    ubicacion TEXT NOT NULL,
+    stock_minimo REAL DEFAULT 0,
+    especificaciones TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_reactivos_nombre ON reactivos_quimicos(nombre);
 CREATE INDEX IF NOT EXISTS idx_biomat_tipo ON aleaciones_biomateriales(tipo_material);
 CREATE INDEX IF NOT EXISTS idx_equipos_estado ON equipos_caracterizacion(estado_actual);
 CREATE INDEX IF NOT EXISTS idx_movimientos_fecha ON historial_movimientos(fecha_hora);
+CREATE INDEX IF NOT EXISTS idx_insumos_cat ON insumos_generales(categoria_insumo);
 
