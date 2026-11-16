@@ -1,0 +1,12 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.jdt.ls.java.home": "C:\\Users\\jquir\\.gradle\\jdks\\eclipse_adoptium-21-amd64-windows.2",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-21",
+            "path": "C:\\Users\\jquir\\.gradle\\jdks\\eclipse_adoptium-21-amd64-windows.2",
+            "default": true
+        }
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

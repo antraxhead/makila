@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Ejecutar Makila (Spring Boot)",
+            "request": "launch",
+            "mainClass": "com.makila.MakilaApplication",
+            "projectName": "makila",
+            "vmArgs": "-Dspring.profiles.active=default"
+        }
+    ]
+}

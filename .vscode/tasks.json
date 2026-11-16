@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Gradle: Test Suite (Eval Suite P09)",
+            "type": "shell",
+            "command": ".\\gradlew.bat test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\jquir\\.gradle\\jdks\\eclipse_adoptium-21-amd64-windows.2"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Gradle: Iniciar Makila Server (bootRun)",
+            "type": "shell",
+            "command": ".\\gradlew.bat bootRun",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\jquir\\.gradle\\jdks\\eclipse_adoptium-21-amd64-windows.2"
+                }
+            },
+            "problemMatcher": []
+        }
+    ]
+}

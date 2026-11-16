@@ -1,4 +1,5 @@
-.gradle
+bin/
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -37,4 +38,3 @@ out/
 
 ### Logs ###
 *.log
-
